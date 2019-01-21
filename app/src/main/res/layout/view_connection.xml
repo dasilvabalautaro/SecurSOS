@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/left_one_guideline"
-                app:layout_constraintGuide_percent=".15"
+                app:layout_constraintGuide_percent=".10"
                 android:orientation="vertical"/>
 
         <android.support.constraint.Guideline
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/right_one_guideline"
-                app:layout_constraintGuide_percent=".85"
+                app:layout_constraintGuide_percent=".90"
                 android:orientation="vertical"/>
 
         <android.support.constraint.Guideline
@@ -116,7 +116,7 @@
                 android:textSize="20sp"
                 android:textColor="@color/colorTextPrimary"
                 android:textAlignment="textStart"
-                android:id="@+id/tv_connection"
+                android:id="@+id/tv_name"
                 android:fontFamily="@font/lato"/>
 
         <TextView
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="@+id/left_one_guideline"
                 app:layout_constraintRight_toRightOf="@+id/right_one_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/tv_connection"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name"
                 android:layout_marginTop="10dp"
                 android:text="@string/lbl_details_contact"
                 android:textSize="20sp"
@@ -143,7 +143,33 @@
                 android:textSize="20sp"
                 android:textColor="@color/colorTextPrimary"
                 android:textAlignment="textStart"
-                android:id="@+id/tv_details"
+                android:id="@+id/tv_phone"
+                android:fontFamily="@font/lato"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@+id/left_one_guideline"
+                app:layout_constraintRight_toRightOf="@+id/right_one_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/tv_phone"
+                android:layout_marginTop="5dp"
+                android:textSize="20sp"
+                android:textColor="@color/colorTextPrimary"
+                android:textAlignment="textStart"
+                android:id="@+id/tv_email"
+                android:fontFamily="@font/lato"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@+id/left_one_guideline"
+                app:layout_constraintRight_toRightOf="@+id/right_one_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/tv_email"
+                android:layout_marginTop="5dp"
+                android:textSize="20sp"
+                android:textColor="@color/colorTextPrimary"
+                android:textAlignment="textStart"
+                android:id="@+id/tv_web"
                 android:fontFamily="@font/lato"/>
 
         <ImageButton
@@ -153,7 +179,7 @@
                 android:background="@null"
                 android:contentDescription="@string/lbl_description_image"
                 app:layout_constraintLeft_toLeftOf="@+id/left_one_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/tv_details"
+                app:layout_constraintTop_toBottomOf="@+id/tv_web"
                 android:id="@+id/sw_audio"
                 android:layout_marginTop="10dp"/>
 
@@ -223,13 +249,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/lbl_manual_synchronization"
-                android:background="@color/colorLight"
+                android:background="@drawable/bkg_btn"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="@+id/left_one_guideline"
                 app:layout_constraintRight_toRightOf="@+id/right_one_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/sw_location"
-                android:id="@+id/bt_validate"
+                android:id="@+id/bt_sync_up"
                 android:fontFamily="@font/lato_bold"/>
 
         <ImageButton

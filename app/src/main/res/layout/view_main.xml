@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/left_one_guideline"
-                app:layout_constraintGuide_percent=".40"
+                app:layout_constraintGuide_percent=".45"
                 android:orientation="vertical"/>
 
         <android.support.constraint.Guideline
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/right_one_guideline"
-                app:layout_constraintGuide_percent=".60"
+                app:layout_constraintGuide_percent=".55"
                 android:orientation="vertical"/>
 
         <android.support.constraint.Guideline
@@ -142,6 +142,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/ib_fireguard"
                 android:text="@string/lbl_description_fireguard"
                 android:textSize="23sp"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/colorSecondaryText"
                 android:textAlignment="center"
                 android:id="@+id/tv_title_fire"

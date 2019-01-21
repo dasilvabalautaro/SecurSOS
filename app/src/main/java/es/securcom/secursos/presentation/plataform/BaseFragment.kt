@@ -18,17 +18,25 @@ import es.securcom.secursos.di.ApplicationComponent
 import es.securcom.secursos.extension.appContext
 import es.securcom.secursos.extension.viewContainer
 import es.securcom.secursos.model.exception.Failure
+import es.securcom.secursos.model.persistent.BuildPackageData
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 abstract class BaseFragment: Fragment() {
+    companion object {
+        var flagInit = true
+    }
+
     abstract fun layoutId(): Int
     val appComponent: ApplicationComponent by lazy(mode = LazyThreadSafetyMode.NONE) {
         (activity?.application as App).component
     }
 
-   /* @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory*/
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    @Inject
+    lateinit var buildPackageData: BuildPackageData
+
     internal var disposable: CompositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -60,6 +68,6 @@ abstract class BaseFragment: Fragment() {
     }
 
     internal fun Context.toast(message: CharSequence) =
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 
 }

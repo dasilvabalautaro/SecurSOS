@@ -21,6 +21,27 @@ class EnablePermissions @Inject constructor(private val levelPermission:
     private val accessWriteExternal = 4
     private val accessReadCalendar = 5
     private val accessWriteCalendar = 6
+    private val accessReadPhoneState = 7
+
+
+    fun permissionReadPhone(activity: Activity){
+
+        when {
+            ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.READ_PHONE_STATE) !=
+                    PackageManager.PERMISSION_GRANTED -> if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.READ_PHONE_STATE)) {
+                activity.toast(activity.getString(R.string.not_permission_read_phone))
+
+            } else {
+
+                levelPermission
+                    .requestPermission(activity, accessReadPhoneState,
+                        Manifest.permission.READ_PHONE_STATE)
+
+            }
+        }
+    }
 
     fun permissionCamera(activity: Activity){
 
@@ -140,6 +161,15 @@ class EnablePermissions @Inject constructor(private val levelPermission:
                         grantResults)) {
                 println("Permission Ok")
             }
+
+
+            accessReadPhoneState -> if (levelPermission
+                    .permissionGranted(requestCode,
+                        accessReadPhoneState,
+                        grantResults)) {
+                println("Permission Ok")
+            }
+
         }
 
     }

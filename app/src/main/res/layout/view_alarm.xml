@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:fillViewport="true">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary">
+
+        <android.support.constraint.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/left_guideline"
+                app:layout_constraintGuide_percent=".05"
+                android:orientation="vertical"/>
+
+        <android.support.constraint.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/left_one_guideline"
+                app:layout_constraintGuide_percent=".10"
+                android:orientation="vertical"/>
+
+        <android.support.constraint.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/right_guideline"
+                app:layout_constraintGuide_percent=".95"
+                android:orientation="vertical"/>
+
+        <android.support.constraint.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/right_one_guideline"
+                app:layout_constraintGuide_percent=".90"
+                android:orientation="vertical"/>
+
+        <android.support.constraint.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/top_guideline"
+                app:layout_constraintGuide_percent=".05"
+                android:orientation="horizontal"/>
+
+        <android.support.constraint.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/bottom_guideline"
+                app:layout_constraintGuide_percent=".95"
+                android:orientation="horizontal"/>
+
+        <android.support.constraint.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/bottom_one_guideline"
+                app:layout_constraintGuide_percent=".75"
+                android:orientation="horizontal"/>
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/btn_sos"
+                android:background="@null"
+                android:layout_marginTop="20dp"
+                android:contentDescription="@string/lbl_description_image"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/top_guideline"
+                android:id="@+id/ib_message"/>
+
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="@+id/left_one_guideline"
+                app:layout_constraintRight_toRightOf="@+id/right_one_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/ib_message"
+                android:layout_marginTop="20dp"
+                android:text="4"
+                android:textSize="70sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:textAlignment="center"
+                android:id="@+id/tv_count"
+                android:fontFamily="@font/lato_black"/>
+
+
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/lbl_btn_cancel"
+                android:background="@drawable/bkg_cancel"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="@+id/left_one_guideline"
+                app:layout_constraintRight_toRightOf="@+id/right_one_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/tv_count"
+                android:id="@+id/bt_alarm"
+                android:fontFamily="@font/lato_bold"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</ScrollView>

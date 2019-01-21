@@ -3,6 +3,12 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="es.securcom.secursos">
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -11,9 +17,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_CALENDAR"/>
     <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
             android:name=".App"
@@ -25,24 +31,54 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.view.activity.RouteActivity">
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="@string/google_maps_key"/>
+
+        <activity
+                android:name=".MapsActivity"
+                android:label="@string/title_activity_maps">
+        </activity>
+        <activity android:name=".presentation.view.activity.MainActivity"/>
+        <activity android:name=".presentation.view.activity.ConnectionActivity"/>
+        <activity android:name=".presentation.view.activity.RegisterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.view.activity.ConnectionActivity"/>
-        <activity android:name=".presentation.view.activity.RegisterActivity"/>
+        <activity android:name=".presentation.view.activity.TestActivity"/>
+        <activity android:name=".presentation.view.activity.LogActivity"/>
+        <activity android:name=".presentation.view.activity.InformationActivity"/>
+        <activity android:name=".presentation.view.activity.MessageActivity"/>
+        <activity android:name=".presentation.view.activity.AlarmActivity"/>
 
         <service
                 android:name=".model.services.JobLocationService"
                 android:exported="true"
                 android:permission="android.permission.BIND_JOB_SERVICE"/>
-        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
+        <service android:name=".model.services.JobPendingService"/>
+
         <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyDfdF9qStITO-XK-ez-RfkACjINVHbpqaI"/>
+                android:name="preloaded_fonts"
+                android:resource="@array/preloaded_fonts"/>
+
+        <receiver android:name=".model.persistent.hardware.BatteryLevelReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_BATTERY_LOW"/>
+                <action android:name="android.intent.action.ACTION_BATTERY_OKAY"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

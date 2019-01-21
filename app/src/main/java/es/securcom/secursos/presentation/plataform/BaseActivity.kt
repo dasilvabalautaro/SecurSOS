@@ -6,14 +6,31 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import es.securcom.secursos.App
 import es.securcom.secursos.R
 import kotlinx.android.synthetic.main.toolbar.*
 import es.securcom.secursos.R.layout
 import es.securcom.secursos.R.id
+import es.securcom.secursos.di.ApplicationComponent
 import es.securcom.secursos.extension.inTransaction
+import es.securcom.secursos.model.persistent.network.NetworkHandler
+import es.securcom.secursos.presentation.permission.EnablePermissions
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 abstract class BaseActivity: AppCompatActivity() {
+
+    val appComponent: ApplicationComponent by
+    lazy(mode = LazyThreadSafetyMode.NONE) {
+        (application as App).component
+    }
+
+    @Inject
+    lateinit var networkHandler: NetworkHandler
+    @Inject
+    lateinit var enablePermissions: EnablePermissions
+    internal var disposable: CompositeDisposable = CompositeDisposable()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout.activity_main)
@@ -27,8 +44,27 @@ abstract class BaseActivity: AppCompatActivity() {
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         addFragment(savedInstanceState)
+        bt_connect.setOnClickListener{
+            (application as App).navigator.showConnection(this)
+        }
 
+        bt_test.setOnClickListener {
+            (application as App).navigator.showTest(this)
+        }
+
+        bt_log.setOnClickListener {
+            (application as App).navigator.showLog(this)
+        }
+
+        bt_information.setOnClickListener {
+            (application as App).navigator.showInformation(this)
+        }
+
+        bt_message.setOnClickListener {
+            (application as App).navigator.showMessage(this)
+        }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
@@ -56,6 +92,10 @@ abstract class BaseActivity: AppCompatActivity() {
         super.onBackPressed()
     }
 
+    override fun onPause() {
+        super.onPause()
+        drawer_layout.closeDrawer(GravityCompat.START)
+    }
 
     private fun addFragment(savedInstanceState: Bundle?) =
         savedInstanceState ?: supportFragmentManager.inTransaction { add(

@@ -2,29 +2,28 @@ package es.securcom.secursos.presentation.navigation
 
 import android.content.Context
 import es.securcom.secursos.model.persistent.preference.PreferenceRepository
-import es.securcom.secursos.presentation.view.activity.ConnectionActivity
-import es.securcom.secursos.presentation.view.activity.RegisterActivity
+import es.securcom.secursos.presentation.view.activity.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class Navigator @Inject constructor() {
+class Navigator {
 
-    fun showScreenInit(context: Context) {
-        val prefs = PreferenceRepository.customPrefs(context,
-            PreferenceRepository.preferenceApp)
-        val isExist = prefs.getBoolean(
-            PreferenceRepository
-                .isExistReceiverAlarm, false)
-        when (isExist) {
-            true -> showMain(context)
-            false -> showRegister(context)
-        }
-    }
-
-    private fun showMain(context: Context) = context
+    fun showConnection(context: Context) = context
         .startActivity(ConnectionActivity.callingIntent(context))
 
-    private fun showRegister(context: Context) = context
-        .startActivity(RegisterActivity.callingIntent(context))
+    fun showMain(context: Context) = context
+        .startActivity(MainActivity.callingIntent(context))
+
+    fun showTest(context: Context) = context
+        .startActivity(TestActivity.callingIntent(context))
+
+    fun showLog(context: Context) = context
+        .startActivity(LogActivity.callingIntent(context))
+
+    fun showInformation(context: Context) = context
+        .startActivity(InformationActivity.callingIntent(context))
+
+    fun showMessage(context: Context) = context
+        .startActivity(MessageActivity.callingIntent(context))
+
 }

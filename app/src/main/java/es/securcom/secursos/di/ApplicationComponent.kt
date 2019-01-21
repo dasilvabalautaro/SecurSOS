@@ -4,10 +4,12 @@ import android.content.Context
 import dagger.Component
 import es.securcom.secursos.App
 import es.securcom.secursos.di.viewmodel.ViewModelModule
-import es.securcom.secursos.model.services.JobLocationService
-import es.securcom.secursos.presentation.view.activity.RegisterActivity
-import es.securcom.secursos.presentation.view.activity.RouteActivity
-import es.securcom.secursos.presentation.view.fragment.RegisterFragment
+import es.securcom.secursos.model.persistent.network.LocationListener
+import es.securcom.secursos.model.services.JobPendingService
+import es.securcom.secursos.presentation.view.activity.ConnectionActivity
+import es.securcom.secursos.presentation.view.activity.MainActivity
+import es.securcom.secursos.presentation.view.activity.TestActivity
+import es.securcom.secursos.presentation.view.fragment.*
 import javax.inject.Singleton
 
 @Singleton
@@ -15,7 +17,14 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun inject(app: App)
     fun context(): Context
-    fun inject(routeActivity: RouteActivity)
+    fun inject(mainActivity: MainActivity)
+    fun inject(mainFragment: MainFragment)
+    fun inject(connectionFragment: ConnectionFragment)
+    fun inject(testActivity: TestActivity)
+    fun inject(testFragment: TestFragment)
     fun inject(registerFragment: RegisterFragment)
-    fun inject(registerActivity: RegisterActivity)
+    fun inject(locationListener: LocationListener)
+    fun inject(messageFragment: MessageFragment)
+    fun inject(alarmFragment: AlarmFragment)
+    fun inject(jobPendingService: JobPendingService)
 }

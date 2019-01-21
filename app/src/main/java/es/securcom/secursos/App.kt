@@ -7,6 +7,7 @@ import es.securcom.secursos.di.ApplicationComponent
 import es.securcom.secursos.di.ApplicationModule
 import es.securcom.secursos.di.DaggerApplicationComponent
 import es.securcom.secursos.model.observer.AppLifecycleObserver
+import es.securcom.secursos.presentation.navigation.Navigator
 import javax.inject.Inject
 
 class App: Application() {
@@ -19,6 +20,8 @@ class App: Application() {
 
     @Inject
     lateinit var appLifecycleObserver: AppLifecycleObserver
+    @Inject
+    lateinit var navigator: Navigator
 
     override fun onCreate() {
         super.onCreate()

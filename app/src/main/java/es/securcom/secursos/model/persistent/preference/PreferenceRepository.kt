@@ -9,6 +9,7 @@ object PreferenceRepository {
     const val longitude = "longitude"
     const val preferenceApp = "es.securcom.secursos"
     const val isExistReceiverAlarm = "receiverAlarm"
+    const val differUpdateLocation = "differUpdateLocation"
 
     fun defaultPrefs(context: Context): SharedPreferences
             = PreferenceManager.getDefaultSharedPreferences(context)

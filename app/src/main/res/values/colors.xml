@@ -8,7 +8,7 @@
     <color name="colorPrimaryText">#000000</color>
     <color name="colorSecondaryText">#ffffff</color>
     <color name="translucentBackground">#DEDEDE</color>
-    <color name="colorTransparent">#30FFFFFF</color>
+    <color name="colorTransparent">#20FFFFFF</color>
     <color name="colorTextPrimary">#000000</color>
     <color name="colorTextSecondary">#818181</color>
     <color name="colorSeparation">#EFEFEF</color>

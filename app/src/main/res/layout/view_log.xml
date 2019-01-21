@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/left_one_guideline"
-                app:layout_constraintGuide_percent=".15"
+                app:layout_constraintGuide_percent=".10"
                 android:orientation="vertical"/>
 
         <android.support.constraint.Guideline
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/right_one_guideline"
-                app:layout_constraintGuide_percent=".85"
+                app:layout_constraintGuide_percent=".90"
                 android:orientation="vertical"/>
 
         <android.support.constraint.Guideline
