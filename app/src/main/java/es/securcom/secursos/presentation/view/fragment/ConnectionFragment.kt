@@ -17,15 +17,18 @@ class ConnectionFragment: BaseFragment() {
     }
 
     private fun setControls(){
-        tv_name.text = Variables.alarmCenter!!.name
-        tv_phone.text = Variables.alarmCenter!!.phone
-        tv_email.text = Variables.alarmCenter!!.email
-        tv_web.text = Variables.alarmCenter!!.web
+        if (Variables.alarmCenter != null){
+            tv_name.text = Variables.alarmCenter!!.name
+            tv_phone.text = Variables.alarmCenter!!.phone
+            tv_email.text = Variables.alarmCenter!!.email
+            tv_web.text = Variables.alarmCenter!!.web
 
-        if (Variables.alarmCenter!!.lapseLocation > 0){
-            sw_location.setImageResource(R.drawable.switchon)
-        }else{
-            sw_location.setImageResource(R.drawable.switchoff)
+            if (Variables.alarmCenter!!.lapseLocation > 0){
+                sw_location.setImageResource(R.drawable.switchon)
+            }else{
+                sw_location.setImageResource(R.drawable.switchoff)
+            }
+
         }
     }
 

@@ -8,6 +8,7 @@ import es.securcom.secursos.model.persistent.network.LocationListener
 import es.securcom.secursos.model.services.JobPendingService
 import es.securcom.secursos.presentation.view.activity.ConnectionActivity
 import es.securcom.secursos.presentation.view.activity.MainActivity
+import es.securcom.secursos.presentation.view.activity.RegisterActivity
 import es.securcom.secursos.presentation.view.activity.TestActivity
 import es.securcom.secursos.presentation.view.fragment.*
 import javax.inject.Singleton
@@ -22,9 +23,11 @@ interface ApplicationComponent {
     fun inject(connectionFragment: ConnectionFragment)
     fun inject(testActivity: TestActivity)
     fun inject(testFragment: TestFragment)
+    fun inject(registerActivity: RegisterActivity)
     fun inject(registerFragment: RegisterFragment)
     fun inject(locationListener: LocationListener)
     fun inject(messageFragment: MessageFragment)
     fun inject(alarmFragment: AlarmFragment)
+    fun inject(logFragment: LogFragment)
     fun inject(jobPendingService: JobPendingService)
 }

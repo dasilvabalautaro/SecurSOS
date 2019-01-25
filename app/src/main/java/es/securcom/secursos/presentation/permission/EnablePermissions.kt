@@ -24,6 +24,46 @@ class EnablePermissions @Inject constructor(private val levelPermission:
     private val accessReadPhoneState = 7
 
 
+
+    fun permissionWriteExternal(activity: Activity){
+
+        when {
+            ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                    PackageManager.PERMISSION_GRANTED -> if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                activity.toast(activity.getString(R.string.not_permission_write_external))
+
+            } else {
+
+                levelPermission
+                    .requestPermission(activity, accessWriteExternal,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+            }
+        }
+    }
+
+    fun permissionReadExternal(activity: Activity){
+
+        when {
+            ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.READ_EXTERNAL_STORAGE) !=
+                    PackageManager.PERMISSION_GRANTED -> if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                activity.toast(activity.getString(R.string.not_permission_read_external))
+
+            } else {
+
+                levelPermission
+                    .requestPermission(activity, accessReadExternal,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)
+
+            }
+        }
+    }
+
+
     fun permissionReadPhone(activity: Activity){
 
         when {

@@ -76,4 +76,8 @@ class ApplicationModule(private val app: App) {
     @Provides
     @Singleton
     fun provideDeviceDataDao(database: AppDatabase) = database.deviceDataDao()
+
+    @Provides
+    @Singleton
+    fun provideSecurityOptionsDataDao(database: AppDatabase) = database.securityOptionsDataDao()
 }

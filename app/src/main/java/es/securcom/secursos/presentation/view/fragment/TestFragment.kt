@@ -20,9 +20,13 @@ import es.securcom.secursos.extension.observe
 import es.securcom.secursos.extension.viewModel
 import es.securcom.secursos.model.observer.LocationChangeObserver
 import es.securcom.secursos.model.persistent.caching.Variables
+import es.securcom.secursos.model.persistent.network.entity.PendingShipping
 import es.securcom.secursos.model.persistent.preference.PreferenceRepository
+import es.securcom.secursos.presentation.presenter.PostRepositoryViewModel
 import es.securcom.secursos.presentation.presenter.UpdateEventualDataViewModel
+import es.securcom.secursos.presentation.tools.Conversion
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.android.synthetic.main.view_message.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -35,9 +39,9 @@ class TestFragment: BaseFragment(), OnMapReadyCallback{
     lateinit var managerLocation: ManagerLocation
     @Inject
     lateinit var locationChangeObserver: LocationChangeObserver
-    @Inject
-    lateinit var updateEventualDataViewModel: UpdateEventualDataViewModel
 
+    private lateinit var updateEventualDataViewModel: UpdateEventualDataViewModel
+    private lateinit var postRepositoryViewModel: PostRepositoryViewModel
 
     override fun layoutId() = R.layout.view_test
 
@@ -53,14 +57,23 @@ class TestFragment: BaseFragment(), OnMapReadyCallback{
            observe(result, ::resultUpdateEventual)
            failure(failure, ::handleFailure)
        }
+
+       postRepositoryViewModel = viewModel(viewModelFactory) {
+           observe(result, ::resultSendTest)
+           failure(failure, ::handleFailure)
+       }
+
        val hearLocation = locationChangeObserver.observableLocation.map { l -> l }
        disposable.add(hearLocation .observeOn(AndroidSchedulers.mainThread())
            .subscribe { l ->
                kotlin.run {
                    val lat = l.latitude
                    val long = l.longitude
-                   Variables.eventualData!!.latitude = lat
-                   Variables.eventualData!!.longitude = long
+                   if (Variables.eventualData != null){
+                       Variables.eventualData!!.latitude = lat
+                       Variables.eventualData!!.longitude = long
+
+                   }
                    updateEventualLocation()
                    val coordinates = LatLng(lat, long)
                    googleMaps.addMarker(MarkerOptions().position(coordinates)
@@ -71,6 +84,16 @@ class TestFragment: BaseFragment(), OnMapReadyCallback{
            })
 
     }
+
+    private fun resultSendTest(value: String?){
+        if (value.isNullOrEmpty()){
+            val last = Variables.pendingList.lastIndex
+            Variables.pendingList.removeAt(last)
+            context!!.toast(value.toString())
+        }
+
+    }
+
 
     private fun updateEventualLocation(){
         GlobalScope.launch {
@@ -91,10 +114,48 @@ class TestFragment: BaseFragment(), OnMapReadyCallback{
         supportMapFragment.getMapAsync(this)
 
         bt_test.setOnClickListener{
-
+            if (Variables.devicesView != null &&
+                Variables.alarmCenter != null){
+                sendTest()
+            }else{
+                println(getString(R.string.lbl_entity_empty))
+            }
         }
     }
 
+    private fun launchTest(url: String){
+        GlobalScope.launch {
+            val uri = "http://$url"
+            buildPackageData.line = Variables.alarmCenter!!.line?:""
+            if (buildPackageData.line.isNotEmpty()){
+                buildPackageData.code = "TEST"
+                val body = buildPackageData
+                    .buildPackageByEvent()
+                val list = listOf(uri, body)
+                val pendingShipping = PendingShipping(url, body, 0)
+                Variables.pendingList.add(pendingShipping)
+                postRepositoryViewModel.params = list
+                postRepositoryViewModel.post()
+            }else{
+                activity!!.runOnUiThread {
+                    context!!.toast(getString(R.string.lbl_line_empty))
+                }
+            }
+        }
+
+    }
+
+    private fun sendTest(){
+
+        val url = Conversion.getUrlPort()
+        if (!url.isNullOrEmpty()){
+            launchTest(url)
+
+        }else{
+            context!!.toast(getString(R.string.lbl_url_empty))
+        }
+
+    }
 
 
     @SuppressLint("MissingPermission")
@@ -115,14 +176,13 @@ class TestFragment: BaseFragment(), OnMapReadyCallback{
     }
 
 
-
     override fun onDestroy() {
         super.onDestroy()
         disposable.dispose()
      }
 
    override fun renderFailure(message: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+       notify(message)
     }
 
 }

@@ -15,6 +15,9 @@ class InformationFragment: BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        tv_information.text = Variables.alarmCenter!!.information
+        if (Variables.alarmCenter != null){
+            tv_information.text = Variables.alarmCenter!!.information
+        }
+
     }
 }

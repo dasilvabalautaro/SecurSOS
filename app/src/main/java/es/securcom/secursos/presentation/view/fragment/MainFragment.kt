@@ -7,6 +7,7 @@ import es.securcom.secursos.extension.failure
 import es.securcom.secursos.extension.observe
 import es.securcom.secursos.extension.viewModel
 import es.securcom.secursos.model.persistent.caching.Variables
+import es.securcom.secursos.model.persistent.files.ManageFiles
 import es.securcom.secursos.presentation.data.AlarmCenterView
 import es.securcom.secursos.presentation.data.BodyView
 import es.securcom.secursos.presentation.data.DeviceView
@@ -16,9 +17,12 @@ import es.securcom.secursos.presentation.presenter.*
 import es.securcom.secursos.presentation.tools.Conversion
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MainFragment: BaseFragment() {
 
+    @Inject
+    lateinit var manageFiles: ManageFiles
     private lateinit var getEventualDataViewModel: GetEventualDataViewModel
     private lateinit var createEventualDataViewModel: CreateEventualDataViewModel
     private lateinit var getAlarmCenterViewModel: GetAlarmCenterViewModel
@@ -68,14 +72,18 @@ class MainFragment: BaseFragment() {
             observe(result, ::resultCreateEventual)
             failure(failure, ::handleFailure)
         }
+
+        manageFiles.verifyLog()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         if (flagInit){
             syncUp()
             flagInit = false
         }
+
 
     }
 

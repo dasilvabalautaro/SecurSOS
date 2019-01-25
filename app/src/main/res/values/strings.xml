@@ -5,6 +5,8 @@
     <string name="failure_database_error">Database Error</string>
     <string name="not_permission_location">Not access location</string>
     <string name="not_permission_camera">Not photo</string>
+    <string name="not_permission_read_external">Not Read External Storage</string>
+    <string name="not_permission_write_external">Not Write External Storage</string>
     <string name="not_permission_read_phone">Not Read Phone State</string>
     <string name="not_permission_read_calendar">Not read calendar</string>
     <string name="not_permission_write_calendar">Not write_calendar</string>
@@ -52,4 +54,11 @@
     <string name="lbl_description_fireguard">Emergency Fireguard</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_my_location">My Location</string>
+    <string name="device_first_log">New execution Application: </string>
+    <string name="lbl_cpu">CPU: </string>
+    <string name="lbl_model">Model: </string>
+    <string name="lbl_manufacturer">Manufacturer: </string>
+    <string name="lbl_brand">Brand: </string>
+    <string name="lbl_android">Version Android: </string>
+
 </resources>

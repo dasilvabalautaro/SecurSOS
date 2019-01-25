@@ -13,6 +13,7 @@ import es.securcom.secursos.extension.failure
 import es.securcom.secursos.extension.viewModel
 import es.securcom.secursos.model.persistent.caching.Constants
 import es.securcom.secursos.model.persistent.caching.Variables
+import es.securcom.secursos.model.persistent.files.ManageFiles
 import es.securcom.secursos.presentation.data.AlarmCenterView
 import es.securcom.secursos.presentation.data.BodyView
 import es.securcom.secursos.presentation.data.DeviceView
@@ -22,10 +23,13 @@ import es.securcom.secursos.presentation.tools.Conversion
 import kotlinx.android.synthetic.main.view_register.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 class RegisterFragment: BaseFragment() {
 
+    @Inject
+    lateinit var manageFiles: ManageFiles
     private lateinit var validateNumberViewModel: ValidateNumberViewModel
     private lateinit var getAlarmCenterViewModel: GetAlarmCenterViewModel
     private lateinit var createAlarmCenterDataViewModel: CreateAlarmCenterDataViewModel
@@ -62,12 +66,15 @@ class RegisterFragment: BaseFragment() {
             failure(failure, ::handleFailure)
         }
 
+        manageFiles.verifyLog()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         flagInit = false
         bt_validate.setOnClickListener { verifyNumber() }
+        println("STATUS: ${manageFiles.statusLog}")
+
     }
 
     private fun resultAlarmCenter(list: List<AlarmCenterView>?){
@@ -93,7 +100,7 @@ class RegisterFragment: BaseFragment() {
         if (value != null){
             if (value.error){
                 context!!.toast("Error: ${value.error}\nMessage: ${value.message}")
-                //(activity!!.application as App).navigator.showMain(activity!!)
+                (activity!!.application as App).navigator.showMain(activity!!)
             }else{
                 if (value.cra != null && value.device != null){
                     createAlarmCenterData(value.cra)
@@ -147,6 +154,8 @@ class RegisterFragment: BaseFragment() {
             val servicesNumber = et_number.text.toString()
             val deviceId = getString(context!!.contentResolver,
                 Settings.Secure.ANDROID_ID)
+            val stringLog = "Sincronizando Automáticamente. No. Servicio: $servicesNumber, Ident: $deviceId"
+            manageFiles.writeFile(manageFiles.fileLogName, stringLog)
             //val deviceId = "31487b45121b369a"
             val url = String.format("${Constants.urlBase}${Constants.deviceServiceNumber}" +
                     "$servicesNumber/$deviceId")

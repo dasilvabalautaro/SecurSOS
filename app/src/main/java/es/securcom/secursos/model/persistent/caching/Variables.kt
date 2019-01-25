@@ -7,6 +7,6 @@ object Variables {
     var alarmCenter: AlarmCenterView? = null
     var eventualData: EventualView? = null
     var devicesView: DeviceView? = null
-    var securityButtonView: SecurityButtonView? = null
+    var securityButtonView: SecurityOptionsView? = null
     val pendingList: MutableList<PendingShipping> = mutableListOf()
 }

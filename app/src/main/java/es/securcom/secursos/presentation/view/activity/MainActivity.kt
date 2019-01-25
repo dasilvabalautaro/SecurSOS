@@ -39,6 +39,9 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
         enablePermissions.permissionServiceLocation(this)
+        enablePermissions.permissionReadExternal(this)
+        enablePermissions.permissionWriteExternal(this)
+
         if (networkHandler.isConnected == null || !networkHandler.isConnected!!){
             Toast.makeText(this,
                 getString(R.string.failure_network_connection),
@@ -63,8 +66,11 @@ class MainActivity : BaseActivity() {
                 kotlin.run {
                     val lat = l.latitude
                     val long = l.longitude
-                    Variables.eventualData!!.latitude = lat
-                    Variables.eventualData!!.longitude = long
+                    if (Variables.eventualData != null){
+                        Variables.eventualData!!.latitude = lat
+                        Variables.eventualData!!.longitude = long
+
+                    }
 
                 }
             })
@@ -72,7 +78,10 @@ class MainActivity : BaseActivity() {
         disposable.add(hearBattery .observeOn(Schedulers.newThread())
             .subscribe { l ->
                 kotlin.run {
-                    Variables.eventualData!!.batteryLevel = l
+                    if (Variables.eventualData != null){
+                        Variables.eventualData!!.batteryLevel = l
+                    }
+
                 }
             })
 
