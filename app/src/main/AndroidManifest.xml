@@ -44,24 +44,28 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>
 
-        <activity
+        <!--<activity
                 android:name=".MapsActivity"
                 android:label="@string/title_activity_maps">
-        </activity>
+        </activity>-->
         <activity android:name=".presentation.view.activity.MainActivity"/>
         <activity android:name=".presentation.view.activity.ConnectionActivity"/>
-        <activity android:name=".presentation.view.activity.RegisterActivity">
+        <activity android:name=".presentation.view.activity.RegisterActivity"/>
+        <activity android:name=".presentation.view.activity.TestActivity"/>
+        <activity android:name=".presentation.view.activity.LogActivity"/>
+        <activity android:name=".presentation.view.activity.InformationActivity"/>
+        <activity android:name=".presentation.view.activity.MessageActivity"/>
+        <activity android:name=".presentation.view.activity.AlarmActivity"/>
+        <activity android:name=".presentation.view.activity.RouteActivity"
+                  android:configChanges="mcc|mnc|locale|keyboardHidden|screenLayout|screenSize|orientation"
+                  android:noHistory="true"
+                  android:theme="@style/AppTheme.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.view.activity.TestActivity"/>
-        <activity android:name=".presentation.view.activity.LogActivity"/>
-        <activity android:name=".presentation.view.activity.InformationActivity"/>
-        <activity android:name=".presentation.view.activity.MessageActivity"/>
-        <activity android:name=".presentation.view.activity.AlarmActivity"/>
 
         <service
                 android:name=".model.services.JobLocationService"

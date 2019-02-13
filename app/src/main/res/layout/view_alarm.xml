@@ -64,12 +64,12 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/btn_sos"
                 android:background="@null"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:contentDescription="@string/lbl_description_image"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/top_guideline"
-                android:id="@+id/ib_message"/>
+                android:id="@+id/ib_sos"/>
 
 
         <TextView
@@ -77,29 +77,57 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="@+id/left_one_guideline"
                 app:layout_constraintRight_toRightOf="@+id/right_one_guideline"
-                app:layout_constraintTop_toBottomOf="@+id/ib_message"
-                android:layout_marginTop="20dp"
-                android:text="4"
-                android:textSize="70sp"
+                app:layout_constraintTop_toBottomOf="@+id/ib_sos"
+                android:layout_marginTop="5dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textSize="60sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textAlignment="center"
                 android:id="@+id/tv_count"
                 android:fontFamily="@font/lato_black"/>
 
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                android:id="@+id/pb_countdown"
+                style="@style/Widget.MaterialProgressBar.ProgressBar"
+                android:minWidth="100dp"
+                android:minHeight="100dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                app:mpb_progressTint="@color/colorTransparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ib_sos" />
 
         <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
-                android:text="@string/lbl_btn_cancel"
+                android:text="@string/lbl_btn_reset"
                 android:background="@drawable/bkg_cancel"
                 android:textColor="@color/colorSecondaryText"
                 android:textSize="18sp"
                 app:layout_constraintLeft_toLeftOf="@+id/left_one_guideline"
                 app:layout_constraintRight_toRightOf="@+id/right_one_guideline"
                 app:layout_constraintTop_toBottomOf="@+id/tv_count"
-                android:id="@+id/bt_alarm"
+                android:id="@+id/bt_reset"
+                android:fontFamily="@font/lato_bold"/>
+
+        <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/lbl_btn_cancel"
+                android:background="@drawable/bkg_cancel"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="@+id/left_one_guideline"
+                app:layout_constraintRight_toRightOf="@+id/right_one_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/bt_reset"
+                android:id="@+id/bt_cancel"
                 android:fontFamily="@font/lato_bold"/>
 
     </android.support.constraint.ConstraintLayout>

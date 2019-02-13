@@ -24,7 +24,7 @@ class AppLifecycleObserver @Inject constructor(private val context: Context):
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onEnterDestroy(){
-
+        Toast.makeText(context, "Hasta luego", Toast.LENGTH_LONG).show()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)

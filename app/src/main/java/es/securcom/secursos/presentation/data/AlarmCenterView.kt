@@ -26,7 +26,13 @@ data class AlarmCenterView(var id: Int,
                            var lowBatteryAlarmValue: Int,
                            var lowSignalAlert: Int,
                            var lowSignalAlertValue: Int,
-                           var line: String?): KParcelable {
+                           var line: String?,
+                           var active: Int,
+                           var devMax: String?,
+                           var updateTime: Int,
+                           var reportInitApp: Int,
+                           var reportCloseApp: Int): KParcelable {
+
 
     companion object {
         @JvmField val CREATOR = parcelableCreator(
@@ -38,7 +44,9 @@ data class AlarmCenterView(var id: Int,
         parcel.readString(), parcel.readString(), parcel.readString(), parcel.readString(),
         parcel.readString(), parcel.readString(), parcel.readString(), parcel.readString(),
         parcel.readInt(), parcel.readInt(), parcel.readInt(), parcel.readInt(),
-        parcel.readInt(), parcel.readInt(), parcel.readInt(), parcel.readInt(), parcel.readString())
+        parcel.readInt(), parcel.readInt(), parcel.readInt(), parcel.readInt(),
+        parcel.readString(), parcel.readInt(), parcel.readString(),
+        parcel.readInt(), parcel.readInt(), parcel.readInt())
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         with(dest) {
@@ -65,6 +73,11 @@ data class AlarmCenterView(var id: Int,
             writeInt(lowSignalAlert)
             writeInt(lowSignalAlertValue)
             writeString(line)
+            writeInt(active)
+            writeString(devMax)
+            writeInt(updateTime)
+            writeInt(reportInitApp)
+            writeInt(reportCloseApp)
         }
     }
 

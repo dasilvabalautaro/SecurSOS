@@ -16,7 +16,7 @@ interface ResultRepository {
         override fun results(url: String): Either<Failure, Body> {
             return when (networkHandler.isConnected){
                 true -> request(getRequest.result(url),
-                    {it.toBody()}, BodyEntity(true, "", "", "")
+                    {it.toBody()}, BodyEntity(true, "", null, null)
                 )
                 false, null -> Either.Left(Failure.NetworkConnection())
             }
@@ -31,6 +31,7 @@ interface ResultRepository {
                     false -> Either.Left(Failure.ServerError())
                 }
             } catch (exception: Throwable) {
+                println("ERROR JSON: ${exception.message}")
                 Either.Left(Failure.ServerError())
             }
         }

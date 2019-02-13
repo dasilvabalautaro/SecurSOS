@@ -27,5 +27,10 @@ data class AlarmCenterData(@PrimaryKey var id: Int = 0,
                            @ColumnInfo(name = "lowBatteryAlarmValue") var lowBatteryAlarmValue: Int = 0,
                            @ColumnInfo(name = "lowSignalAlert") var lowSignalAlert: Int = 0,
                            @ColumnInfo(name = "lowSignalAlertValue") var lowSignalAlertValue: Int = 0,
-                           @ColumnInfo(name = "line") var line: String = "") {
+                           @ColumnInfo(name = "line") var line: String = "",
+                           @ColumnInfo(name = "active") var active: Int = 0,
+                           @ColumnInfo(name = "devMax") var devMax: String = "",
+                           @ColumnInfo(name = "updateTime") var updateTime: Int = 0,
+                           @ColumnInfo(name = "reportInitApp") var reportInitApp: Int = 0,
+                           @ColumnInfo(name = "reportCloseApp") var reportCloseApp: Int = 0) {
 }

@@ -14,6 +14,8 @@ import es.securcom.secursos.model.services.ManagerPendingService
 import es.securcom.secursos.presentation.plataform.BaseActivity
 import es.securcom.secursos.presentation.view.fragment.MainFragment
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
+import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
@@ -32,6 +34,7 @@ class MainActivity : BaseActivity() {
     lateinit var checkBattery: CheckBattery
     @Inject
     lateinit var managerPendingService: ManagerPendingService
+    var observableBattery: Subject<Int> = PublishSubject.create()
 
     override fun fragment() = MainFragment()
 
@@ -61,7 +64,7 @@ class MainActivity : BaseActivity() {
         }
 
         val hearLocation = locationChangeObserver.observableLocation.map { l -> l }
-        disposable.add(hearLocation .observeOn(Schedulers.newThread())
+        disposable.add(hearLocation.observeOn(Schedulers.newThread())
             .subscribe { l ->
                 kotlin.run {
                     val lat = l.latitude
@@ -75,11 +78,12 @@ class MainActivity : BaseActivity() {
                 }
             })
         val hearBattery = checkBattery.batteryStatusReceiver.observableBatteryStatus.map { l->l }
-        disposable.add(hearBattery .observeOn(Schedulers.newThread())
+        disposable.add(hearBattery.observeOn(Schedulers.newThread())
             .subscribe { l ->
                 kotlin.run {
                     if (Variables.eventualData != null){
-                        Variables.eventualData!!.batteryLevel = l
+                        Variables.eventualData!!.batteryLevel = l * 100
+                        observableBattery.onNext(Variables.eventualData!!.batteryLevel.toInt())
                     }
 
                 }
@@ -89,9 +93,9 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         managerLocation.cancel()
         managerPendingService.cancel()
         disposable.dispose()
+        super.onDestroy()
     }
 }

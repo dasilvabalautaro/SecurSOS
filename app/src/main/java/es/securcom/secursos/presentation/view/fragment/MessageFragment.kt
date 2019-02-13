@@ -7,25 +7,26 @@ import es.securcom.secursos.extension.failure
 import es.securcom.secursos.extension.observe
 import es.securcom.secursos.extension.viewModel
 import es.securcom.secursos.model.persistent.caching.Variables
+import es.securcom.secursos.model.persistent.files.ManageFiles
 import es.securcom.secursos.model.persistent.network.entity.PendingShipping
 import es.securcom.secursos.presentation.plataform.BaseFragment
-import es.securcom.secursos.presentation.presenter.PostRepositoryViewModel
 import es.securcom.secursos.presentation.tools.Conversion
 import kotlinx.android.synthetic.main.view_message.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MessageFragment: BaseFragment() {
 
-
-    private lateinit var postRepositoryViewModel: PostRepositoryViewModel
+    @Inject
+    lateinit var manageFiles: ManageFiles
 
     override fun layoutId() = R.layout.view_message
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
         postRepositoryViewModel = viewModel(viewModelFactory) {
-            observe(result, ::resultSendMessage)
+            observe(result, ::resultSendPost)
             failure(failure, ::handleFailure)
         }
     }
@@ -33,6 +34,9 @@ class MessageFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bt_send_message.setOnClickListener { sendMessage() }
+        eventClickButtonOptionSecurity()
+        enabledOptions()
+        loadIcons(manageFiles.sizeImageMin, manageFiles.sizeImageMin)
     }
 
     private fun launchMessage(url: String){
@@ -43,7 +47,7 @@ class MessageFragment: BaseFragment() {
                 val body = buildPackageData
                     .buildPackageSendMessage(et_message.text.toString())
                 val list = listOf(uri, body)
-                val pendingShipping = PendingShipping(url, body, 0)
+                val pendingShipping = PendingShipping(uri, body, 0)
                 Variables.pendingList.add(pendingShipping)
                 postRepositoryViewModel.params = list
                 postRepositoryViewModel.post()
@@ -55,6 +59,7 @@ class MessageFragment: BaseFragment() {
         }
 
     }
+
     private fun sendMessage(){
         if(et_message.text.isNotEmpty()){
             val url = Conversion.getUrlPort()
@@ -67,15 +72,6 @@ class MessageFragment: BaseFragment() {
 
         }else{
             context!!.toast(getString(R.string.lbl_entity_empty))
-        }
-
-    }
-
-    private fun resultSendMessage(value: String?){
-        if (value.isNullOrEmpty()){
-            val last = Variables.pendingList.lastIndex
-            Variables.pendingList.removeAt(last)
-            context!!.toast(value.toString())
         }
 
     }

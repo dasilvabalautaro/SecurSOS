@@ -29,7 +29,7 @@ class JobPendingService: JobService() {
     }
 
     override fun onStopJob(params: JobParameters?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
     }
 
     override fun onStartJob(params: JobParameters?): Boolean {

@@ -3,6 +3,7 @@ package es.securcom.secursos.presentation.view.fragment
 import android.os.Bundle
 import android.view.View
 import es.securcom.secursos.R
+import es.securcom.secursos.model.persistent.caching.Variables
 import es.securcom.secursos.model.persistent.files.ManageFiles
 import es.securcom.secursos.presentation.plataform.BaseFragment
 import kotlinx.android.synthetic.main.view_log.*
@@ -24,7 +25,10 @@ class LogFragment: BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        eventClickButtonOptionSecurity()
         loadFileLog()
+        enabledOptions()
+        loadIcons(manageFiles.sizeImageMin, manageFiles.sizeImageMin)
     }
 
     private fun loadFileLog(){

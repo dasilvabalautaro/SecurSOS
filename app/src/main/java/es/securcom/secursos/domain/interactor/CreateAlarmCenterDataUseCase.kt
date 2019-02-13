@@ -22,7 +22,9 @@ class CreateAlarmCenterDataUseCase @Inject constructor(private val alarmCenterDa
                 params.lapseLocation, params.latLngType, params.lowBatteryAlert,
                 params.lowBatteryAlertValue, params.lowBatteryAlarm,
                 params.lowBatteryAlarmValue, params.lowSignalAlert,
-                params.lowSignalAlertValue, params.line?:"")
+                params.lowSignalAlertValue, params.line?:"", params.active,
+                params.devMax?:"", params.updateTime, params.reportInitApp,
+                params.reportCloseApp)
 
             alarmCenterDataDao.insert(alarmCenterData)
             Either.Right(true)

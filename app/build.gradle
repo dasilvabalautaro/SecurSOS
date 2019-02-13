@@ -69,9 +69,12 @@ dependencies {
     implementation applicationDependencies.rxandroid
     implementation applicationDependencies.anko
     implementation applicationDependencies.room
+    implementation applicationDependencies.picasso
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.android.gms:play-services-maps:16.0.0'
-
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
+    implementation applicationDependencies.materialProgress
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
     //Unit/Integration tests dependencies
     testImplementation unitTestDependencies.kotlin
     testImplementation unitTestDependencies.kotlinTest

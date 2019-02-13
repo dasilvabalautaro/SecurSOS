@@ -23,7 +23,7 @@ class GetAlarmCenterViewModel @Inject constructor(alarmCenterDataDao:
             it.updated, it.information, it.lapseLocation, it.latLngType,
             it.lowBatteryAlert, it.lowBatteryAlertValue, it.lowBatteryAlarm,
             it.lowBatteryAlarmValue, it.lowSignalAlert, it.lowSignalAlertValue,
-            it.line)) }
+            it.line, it.active, it.devMax, it.updateTime, it.reportInitApp, it.reportCloseApp)) }
         return listResult
     }
 }

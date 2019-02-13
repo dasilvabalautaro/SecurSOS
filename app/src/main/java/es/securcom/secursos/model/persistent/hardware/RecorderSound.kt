@@ -1,9 +1,13 @@
 package es.securcom.secursos.model.persistent.hardware
 
+import android.annotation.SuppressLint
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
-import android.os.Environment
+import android.os.Handler
+import android.os.Message
+import es.securcom.secursos.model.observer.EventObserver
+import es.securcom.secursos.model.persistent.caching.Variables
 import es.securcom.secursos.model.persistent.files.ManageFiles
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -16,7 +20,8 @@ import java.nio.ByteBuffer
 import java.util.concurrent.atomic.AtomicBoolean
 
 
-class RecorderSound @Inject constructor(private val manageFiles: ManageFiles) {
+class RecorderSound @Inject constructor(private val manageFiles: ManageFiles,
+                                        val eventObserver: EventObserver) {
     lateinit var audioRecorder: AudioRecord
     private val samplingRateInHz = 44100
     private val channelConfig = AudioFormat.CHANNEL_IN_MONO
@@ -25,11 +30,11 @@ class RecorderSound @Inject constructor(private val manageFiles: ManageFiles) {
     private val recordingInProgress = AtomicBoolean(false)
     private val bufferSize = AudioRecord.getMinBufferSize(samplingRateInHz,
         channelConfig, audioFormat) * bufferSizeFactor
-    var nameFile = ""
+    val nameFile = "temp.wav"
     lateinit var job: Job
 
 
-    fun startRecording(){
+    private fun startRecording(){
         audioRecorder = AudioRecord(MediaRecorder.AudioSource.DEFAULT,
             samplingRateInHz, channelConfig, audioFormat, bufferSize)
         audioRecorder.startRecording()
@@ -89,4 +94,17 @@ class RecorderSound @Inject constructor(private val manageFiles: ManageFiles) {
         }
     }
 
+    @SuppressLint("HandlerLeak")
+    private fun stopRecordingHandler() = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            stopRecording()
+            eventObserver.value = Variables.LastSentEvent.SAVE_RECORDER.event
+            eventObserver.observableLocation.onNext(eventObserver.value!!)
+        }
+    }
+
+    fun start(delay: Long){
+        startRecording()
+        stopRecordingHandler().sendEmptyMessageDelayed(0, delay)
+    }
 }

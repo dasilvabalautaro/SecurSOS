@@ -14,6 +14,7 @@
     <string name="lbl_register_description">Insert number of Services Center received in phone</string>
     <string name="lbl_btn_validate">Validate Number</string>
     <string name="lbl_btn_cancel">Cancel</string>
+    <string name="lbl_btn_reset">Reset</string>
     <string name="lbl_field_empty">Field empty</string>
     <string name="lbl_entity_empty">Entity empty</string>
     <string name="lbl_url_empty">Empty URL</string>
@@ -60,5 +61,8 @@
     <string name="lbl_manufacturer">Manufacturer: </string>
     <string name="lbl_brand">Brand: </string>
     <string name="lbl_android">Version Android: </string>
-
+    <string name="last_position">Last position</string>
+    <string name="value_null">Cannot transform a null value</string>
+    <string name="init_recording">Init recording</string>
+    <string name="recording">Recording</string>
 </resources>

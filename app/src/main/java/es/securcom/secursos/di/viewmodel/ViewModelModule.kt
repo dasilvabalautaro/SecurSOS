@@ -78,5 +78,18 @@ abstract class ViewModelModule {
     abstract fun bindsSyncUpViewModel(syncUpViewModel:
                                           SyncUpViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(CreateSecurityOptionsDataViewModel::class)
+    abstract fun bindsCreateSecurityOptionsDataViewModel(createSecurityOptionsDataViewModel:
+                                          CreateSecurityOptionsDataViewModel): ViewModel
+
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(GetSecurityOptionsViewModel::class)
+    abstract fun bindsGetSecurityOptionsViewModel(getSecurityOptionsViewModel:
+                                                      GetSecurityOptionsViewModel): ViewModel
+
 
 }

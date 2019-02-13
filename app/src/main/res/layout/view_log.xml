@@ -66,6 +66,12 @@
                 app:layout_constraintGuide_percent=".78"
                 android:orientation="horizontal"/>
 
+        <android.support.constraint.Guideline
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/center_vertical_guideline"
+                app:layout_constraintGuide_percent=".50"
+                android:orientation="vertical"/>
         <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -111,7 +117,7 @@
         <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/btn_health"
+                android:src="@drawable/ic_sync_min"
                 android:background="@null"
                 android:contentDescription="@string/lbl_description_image"
                 app:layout_constraintLeft_toLeftOf="@+id/left_guideline"
@@ -122,23 +128,34 @@
         <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/btn_policies"
+                android:src="@drawable/ic_sync_min"
                 android:background="@null"
                 android:contentDescription="@string/lbl_description_image"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintRight_toLeftOf="@+id/center_vertical_guideline"
                 app:layout_constraintTop_toTopOf="@+id/ib_health"
                 android:id="@+id/ib_policies"/>
 
         <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/btn_fire_guard"
+                android:src="@drawable/ic_sync_min"
+                android:layout_marginStart="10dp"
+                android:background="@null"
+                android:contentDescription="@string/lbl_description_image"
+                app:layout_constraintLeft_toRightOf="@+id/center_vertical_guideline"
+                app:layout_constraintTop_toTopOf="@+id/ib_policies"
+                android:id="@+id/ib_fireguard"/>
+
+        <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_sync_min"
                 android:background="@null"
                 android:contentDescription="@string/lbl_description_image"
                 app:layout_constraintRight_toLeftOf="@+id/right_guideline"
-                app:layout_constraintTop_toTopOf="@+id/ib_policies"
-                android:id="@+id/ib_fireguard"/>
+                app:layout_constraintTop_toTopOf="@+id/ib_fireguard"
+                android:id="@+id/ib_four"/>
 
     </android.support.constraint.ConstraintLayout>
 

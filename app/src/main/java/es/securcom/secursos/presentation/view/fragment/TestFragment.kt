@@ -1,7 +1,6 @@
 package es.securcom.secursos.presentation.view.fragment
 
 import android.annotation.SuppressLint
-import android.location.Location
 import android.os.Bundle
 import android.view.View
 import com.google.android.gms.maps.model.LatLng
@@ -20,13 +19,12 @@ import es.securcom.secursos.extension.observe
 import es.securcom.secursos.extension.viewModel
 import es.securcom.secursos.model.observer.LocationChangeObserver
 import es.securcom.secursos.model.persistent.caching.Variables
+import es.securcom.secursos.model.persistent.files.ManageFiles
 import es.securcom.secursos.model.persistent.network.entity.PendingShipping
-import es.securcom.secursos.model.persistent.preference.PreferenceRepository
 import es.securcom.secursos.presentation.presenter.PostRepositoryViewModel
 import es.securcom.secursos.presentation.presenter.UpdateEventualDataViewModel
 import es.securcom.secursos.presentation.tools.Conversion
 import io.reactivex.android.schedulers.AndroidSchedulers
-import kotlinx.android.synthetic.main.view_message.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -39,9 +37,10 @@ class TestFragment: BaseFragment(), OnMapReadyCallback{
     lateinit var managerLocation: ManagerLocation
     @Inject
     lateinit var locationChangeObserver: LocationChangeObserver
+    @Inject
+    lateinit var manageFiles: ManageFiles
 
     private lateinit var updateEventualDataViewModel: UpdateEventualDataViewModel
-    private lateinit var postRepositoryViewModel: PostRepositoryViewModel
 
     override fun layoutId() = R.layout.view_test
 
@@ -59,7 +58,7 @@ class TestFragment: BaseFragment(), OnMapReadyCallback{
        }
 
        postRepositoryViewModel = viewModel(viewModelFactory) {
-           observe(result, ::resultSendTest)
+           observe(result, ::resultSendPost)
            failure(failure, ::handleFailure)
        }
 
@@ -85,16 +84,6 @@ class TestFragment: BaseFragment(), OnMapReadyCallback{
 
     }
 
-    private fun resultSendTest(value: String?){
-        if (value.isNullOrEmpty()){
-            val last = Variables.pendingList.lastIndex
-            Variables.pendingList.removeAt(last)
-            context!!.toast(value.toString())
-        }
-
-    }
-
-
     private fun updateEventualLocation(){
         GlobalScope.launch {
             updateEventualDataViewModel.eventual = Variables.eventualData
@@ -112,7 +101,9 @@ class TestFragment: BaseFragment(), OnMapReadyCallback{
         val supportMapFragment = childFragmentManager
             .findFragmentById(R.id.map_view) as SupportMapFragment
         supportMapFragment.getMapAsync(this)
-
+        eventClickButtonOptionSecurity()
+        enabledOptions()
+        loadIcons(manageFiles.sizeImageMin, manageFiles.sizeImageMin)
         bt_test.setOnClickListener{
             if (Variables.devicesView != null &&
                 Variables.alarmCenter != null){
@@ -131,11 +122,7 @@ class TestFragment: BaseFragment(), OnMapReadyCallback{
                 buildPackageData.code = "TEST"
                 val body = buildPackageData
                     .buildPackageByEvent()
-                val list = listOf(uri, body)
-                val pendingShipping = PendingShipping(url, body, 0)
-                Variables.pendingList.add(pendingShipping)
-                postRepositoryViewModel.params = list
-                postRepositoryViewModel.post()
+                sendPost(uri, body)
             }else{
                 activity!!.runOnUiThread {
                     context!!.toast(getString(R.string.lbl_line_empty))
@@ -174,7 +161,6 @@ class TestFragment: BaseFragment(), OnMapReadyCallback{
         }
 
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

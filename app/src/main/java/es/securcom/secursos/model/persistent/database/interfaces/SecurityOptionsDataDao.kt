@@ -6,7 +6,7 @@ import es.securcom.secursos.model.persistent.database.entity.SecurityOptionsData
 
 @Dao
 interface SecurityOptionsDataDao {
-    @Query("SELECT * FROM securityOptionsData")
+    @Query("SELECT * FROM securityOptionsData ORDER BY pk ASC")
     fun getAll(): LiveData<List<SecurityOptionsData>>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)

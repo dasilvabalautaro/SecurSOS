@@ -30,6 +30,7 @@ interface PostRepository {
                     false -> Either.Left(Failure.ServerError())
                 }
             } catch (exception: Throwable) {
+                println("ERROR POST: ${exception.message}")
                 Either.Left(Failure.ServerError())
             }
         }

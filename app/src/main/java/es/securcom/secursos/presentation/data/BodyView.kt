@@ -1,6 +1,8 @@
 package es.securcom.secursos.presentation.data
 
 import android.os.Parcel
+import es.securcom.secursos.model.persistent.network.entity.CraEntity
+import es.securcom.secursos.model.persistent.network.entity.DevicesEntity
 import es.securcom.secursos.presentation.plataform.KParcelable
 import es.securcom.secursos.presentation.plataform.parcelableCreator
 import es.securcom.secursos.presentation.plataform.readBoolean
@@ -18,16 +20,20 @@ data class BodyView(val error: Boolean,
 
     constructor(parcel: Parcel):
             this(parcel.readBoolean(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString())
+                parcel.readString(),
+                parcel.readString(),
+                parcel.readString())
+/*
+                parcel.readValue(DevicesEntity::class.java.classLoader) as DevicesEntity?,
+                parcel.readValue(CraEntity::class.java.classLoader) as CraEntity?
+*/
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         with(dest) {
             writeBoolean(error)
             writeString(message)
-            writeString(device)
-            writeString(cra)
+            writeValue(device)
+            writeValue(cra)
         }
     }
 

@@ -14,12 +14,16 @@ import es.securcom.secursos.extension.viewModel
 import es.securcom.secursos.model.persistent.caching.Constants
 import es.securcom.secursos.model.persistent.caching.Variables
 import es.securcom.secursos.model.persistent.files.ManageFiles
+import es.securcom.secursos.model.persistent.preference.PreferenceRepository
+import es.securcom.secursos.model.persistent.preference.PreferenceRepository.set
 import es.securcom.secursos.presentation.data.AlarmCenterView
 import es.securcom.secursos.presentation.data.BodyView
 import es.securcom.secursos.presentation.data.DeviceView
+import es.securcom.secursos.presentation.data.SecurityOptionsView
 import es.securcom.secursos.presentation.plataform.BaseFragment
 import es.securcom.secursos.presentation.presenter.*
 import es.securcom.secursos.presentation.tools.Conversion
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.view_register.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -35,12 +39,24 @@ class RegisterFragment: BaseFragment() {
     private lateinit var createAlarmCenterDataViewModel: CreateAlarmCenterDataViewModel
     private lateinit var createDeviceDataViewModel: CreateDeviceDataViewModel
     private lateinit var getDevicesViewModel: GetDevicesViewModel
+    private lateinit var createSecurityOptionsDataViewModel: CreateSecurityOptionsDataViewModel
+    private lateinit var getSecurityOptionsViewModel: GetSecurityOptionsViewModel
 
     override fun layoutId() = R.layout.view_register
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
+
+        val countFill = observableFillObject.map { c -> c }
+        disposable.add(countFill.observeOn(Schedulers.newThread())
+            .subscribe {
+                if (it == 2){
+                    countFillObject = 0
+                    sendPostInit()
+                }
+            })
+
         getAlarmCenterViewModel = viewModel(viewModelFactory) {
             observe(result, ::resultAlarmCenter)
             failure(failure, ::handleFailure)
@@ -48,6 +64,10 @@ class RegisterFragment: BaseFragment() {
 
         getDevicesViewModel = viewModel(viewModelFactory) {
             observe(result, ::resultDevices)
+            failure(failure, ::handleFailure)
+        }
+        getSecurityOptionsViewModel = viewModel(viewModelFactory) {
+            observe(result, ::resultSecurityOptions)
             failure(failure, ::handleFailure)
         }
 
@@ -62,7 +82,17 @@ class RegisterFragment: BaseFragment() {
         }
 
         createDeviceDataViewModel = viewModel(viewModelFactory) {
-            observe(result, ::resultCreateAlarm)
+            observe(result, ::resultCreateDevice)
+            failure(failure, ::handleFailure)
+        }
+
+        createSecurityOptionsDataViewModel = viewModel(viewModelFactory) {
+            observe(result, ::resultSecurityOptions)
+            failure(failure, ::handleFailure)
+        }
+
+        postRepositoryViewModel = viewModel(viewModelFactory) {
+            observe(result, ::resultSendPost)
             failure(failure, ::handleFailure)
         }
 
@@ -73,13 +103,14 @@ class RegisterFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         flagInit = false
         bt_validate.setOnClickListener { verifyNumber() }
-        println("STATUS: ${manageFiles.statusLog}")
 
     }
 
     private fun resultAlarmCenter(list: List<AlarmCenterView>?){
         if (!list.isNullOrEmpty()){
             Variables.alarmCenter = list[0]
+            countFillObject ++
+            this.observableFillObject.onNext(countFillObject)
             (activity!!.application as App).navigator.showMain(activity!!)
         }
     }
@@ -87,12 +118,37 @@ class RegisterFragment: BaseFragment() {
     private fun resultDevices(list: List<DeviceView>?){
         if (!list.isNullOrEmpty()){
             Variables.devicesView = list[0]
+            countFillObject ++
+            this.observableFillObject.onNext(countFillObject)
+        }
+    }
 
+    private fun resultSecurityOptions(list: List<SecurityOptionsView>?){
+        if (!list.isNullOrEmpty()){
+            if (!Variables.securityOptionList.isEmpty())
+                Variables.securityOptionList.clear()
+            for (sov: SecurityOptionsView in list){
+                Variables.securityOptionList.add(sov)
+            }
+            println("SECURITY OPTIONS LOAD")
         }
     }
 
     private fun resultCreateAlarm(value: Boolean?){
-        println(value.toString())
+        println("CREATE ALARM: ${value.toString()}")
+    }
+
+    private fun resultCreateDevice(value: Boolean?){
+        if (value != null && value){
+            for (opt:String in Constants.securityOptions){
+                createSecurityOptionsData(opt)
+            }
+            println("CREATE DEVICES: ${value.toString()}")
+        }
+    }
+
+    private fun resultSecurityOptions(value: Boolean?){
+        println("CREATE OPTIONS: ${value.toString()}")
     }
 
     private fun handleGetValidate(value: BodyView?){
@@ -100,12 +156,16 @@ class RegisterFragment: BaseFragment() {
         if (value != null){
             if (value.error){
                 context!!.toast("Error: ${value.error}\nMessage: ${value.message}")
-                (activity!!.application as App).navigator.showMain(activity!!)
+
             }else{
-                if (value.cra != null && value.device != null){
+                if (value.cra != null){
                     createAlarmCenterData(value.cra)
-                    createDeviceData(value.device)
-                    (activity!!.application as App).navigator.showMain(activity!!)
+                    if (value.device != null)
+                        createDeviceData(value.device)
+                    val prefs = PreferenceRepository.customPrefs(activity!!,
+                        Constants.preference_secursos)
+                    prefs[Constants.appInit] = "1"
+
                 }else{
                     context!!.toast(getString(R.string.lbl_entity_empty))
                 }
@@ -113,9 +173,18 @@ class RegisterFragment: BaseFragment() {
         }
     }
 
+    private fun createSecurityOptionsData(prefix: String){
+        GlobalScope.launch {
+            val securityView = Conversion
+                .matchedSecurityOptionsView(prefix)
+            createSecurityOptionsDataViewModel.securityView = securityView
+            createSecurityOptionsDataViewModel.createSecurityOptionsData()
+        }
+    }
+
     private fun createAlarmCenterData(cra: String){
         GlobalScope.launch {
-            val acv = Conversion.matchAlarmCenterView(cra)
+            val acv = Conversion.matchedAlarmCenterView(cra)
             if (acv != null){
                 createAlarmCenterDataViewModel.acv = acv
                 createAlarmCenterDataViewModel.createAlarmCenterData()
@@ -127,7 +196,7 @@ class RegisterFragment: BaseFragment() {
 
     private fun createDeviceData(device: String){
         GlobalScope.launch {
-            val dev = Conversion.matchDeviceView(device)
+            val dev = Conversion.matchedDeviceView(device)
             if (dev != null){
                 createDeviceDataViewModel.device = dev
                 createDeviceDataViewModel.createDeviceData()
@@ -156,7 +225,7 @@ class RegisterFragment: BaseFragment() {
                 Settings.Secure.ANDROID_ID)
             val stringLog = "Sincronizando Automáticamente. No. Servicio: $servicesNumber, Ident: $deviceId"
             manageFiles.writeFile(manageFiles.fileLogName, stringLog)
-            //val deviceId = "31487b45121b369a"
+
             val url = String.format("${Constants.urlBase}${Constants.deviceServiceNumber}" +
                     "$servicesNumber/$deviceId")
             url
@@ -171,4 +240,8 @@ class RegisterFragment: BaseFragment() {
         notify(message)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.dispose()
+    }
 }

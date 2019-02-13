@@ -13,6 +13,8 @@ ext {
     glide_version = '4.0.0'
     reactive_version = '2.1.0'
     room_version = '1.0.0'
+    materialProgressBar_version = '1.4.2'
+    picasso_version = '2.71828'
 
     //Third party libraries
     kotlin_coroutines_version = '1.0.0' //0.22.1
@@ -60,6 +62,8 @@ ext {
             anko:                       "org.jetbrains.anko:anko:$anko_version",
             room:                       "android.arch.persistence.room:runtime:$room_version",
             roomCompiler:               "android.arch.persistence.room:compiler:$room_version",
+            materialProgress:           "me.zhanghai.android.materialprogressbar:library:$materialProgressBar_version",
+            picasso:                    "com.squareup.picasso:picasso:$picasso_version"
     ]
 
     unitTesting = [

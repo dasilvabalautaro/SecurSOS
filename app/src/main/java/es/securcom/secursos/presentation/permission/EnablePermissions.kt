@@ -2,26 +2,34 @@ package es.securcom.secursos.presentation.permission
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.FileProvider
 import es.securcom.secursos.R
+import es.securcom.secursos.model.persistent.files.ManageFiles
 import org.jetbrains.anko.toast
+import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class EnablePermissions @Inject constructor(private val levelPermission:
-                                            LevelPermission):
+                                            LevelPermission,
+                                            private val manageFiles: ManageFiles):
     ActivityCompat.OnRequestPermissionsResultCallback {
 
-    private val accessCamera = 1
+    val accessCamera = 1
     private val accessFineLocation = 2
     private val accessReadExternal = 3
     private val accessWriteExternal = 4
     private val accessReadCalendar = 5
     private val accessWriteCalendar = 6
     private val accessReadPhoneState = 7
+    private val accessMultiple = 8
 
 
 
@@ -101,6 +109,31 @@ class EnablePermissions @Inject constructor(private val levelPermission:
             }
         }
     }
+
+    fun startCamera(activity: Activity) {
+        if (levelPermission.requestPermission(
+                activity,
+                accessMultiple,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA)) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+            try {
+                val photoUri = FileProvider.getUriForFile(activity,
+                    activity.applicationContext.packageName
+                            + ".provider", manageFiles.getCameraFile())
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                activity.startActivityForResult(intent, accessCamera)
+
+            }catch (ex: Exception){
+                println("Error get image: " + ex.message)
+            }
+
+        }
+    }
+
+
 
     fun permissionServiceLocation(activity: Activity){
 

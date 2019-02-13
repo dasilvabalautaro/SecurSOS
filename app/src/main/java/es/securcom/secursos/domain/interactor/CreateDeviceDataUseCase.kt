@@ -17,7 +17,12 @@ class CreateDeviceDataUseCase @Inject constructor(private val deviceDataDao:
             val deviceData = DeviceData(params.id, params.phone?:"",
                 params.fullName?:"", params.serviceNumber?:"",
                 params.cra_id, params.created_at?:"",
-                params.updated_at?:"", params.identifier?:"")
+                params.updated_at?:"", params.identifier?:"",
+                params.button1, params.button2, params.button3, params.button4,
+                params.active, params.lang?:"", params.lowBatteryAlert,
+                params.lowBatteryAlertValue, params.lowBatteryAlarm,
+                params.lowBatteryAlarmValue, params.lowSignalAlert,
+                params.lowSignalAlertValue, params.reportInitApp, params.reportCloseApp)
 
             deviceDataDao.insert(deviceData)
             Either.Right(true)

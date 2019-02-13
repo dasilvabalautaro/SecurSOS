@@ -20,7 +20,10 @@ class GetDevicesViewModel @Inject constructor(deviceDataDao: DeviceDataDao):
         list.forEach { listResult.add(
             DeviceView(it.id, it.phone,
                 it.fullName, it.serviceNumber, it.cra_id, it.created_at,
-                it.updated_at, it.identifier)
+                it.updated_at, it.identifier, it.button1, it.button2,
+                it.button3, it.button4, it.active, it.lang, it.lowBatteryAlert,
+                it.lowBatteryAlertValue, it.lowBatteryAlarm, it.lowBatteryAlarmValue,
+                it.lowSignalAlert, it.lowSignalAlertValue, it.reportInitApp, it.reportCloseApp)
         ) }
         return listResult
     }
