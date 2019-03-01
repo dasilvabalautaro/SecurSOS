@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
-          package="es.securcom.secursos">
+          package="es.securcom.securso">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -22,7 +22,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
-            android:name=".App"
+            android:name="es.securcom.securso.App"
             android:allowBackup="true"
             android:fullBackupContent="@xml/backup_descriptor"
             android:icon="@mipmap/ic_launcher"
@@ -48,15 +48,15 @@
                 android:name=".MapsActivity"
                 android:label="@string/title_activity_maps">
         </activity>-->
-        <activity android:name=".presentation.view.activity.MainActivity"/>
-        <activity android:name=".presentation.view.activity.ConnectionActivity"/>
-        <activity android:name=".presentation.view.activity.RegisterActivity"/>
-        <activity android:name=".presentation.view.activity.TestActivity"/>
-        <activity android:name=".presentation.view.activity.LogActivity"/>
-        <activity android:name=".presentation.view.activity.InformationActivity"/>
-        <activity android:name=".presentation.view.activity.MessageActivity"/>
-        <activity android:name=".presentation.view.activity.AlarmActivity"/>
-        <activity android:name=".presentation.view.activity.RouteActivity"
+        <activity android:name="es.securcom.securso.presentation.view.activity.MainActivity"/>
+        <activity android:name="es.securcom.securso.presentation.view.activity.ConnectionActivity"/>
+        <activity android:name="es.securcom.securso.presentation.view.activity.RegisterActivity"/>
+        <activity android:name="es.securcom.securso.presentation.view.activity.TestActivity"/>
+        <activity android:name="es.securcom.securso.presentation.view.activity.LogActivity"/>
+        <activity android:name="es.securcom.securso.presentation.view.activity.InformationActivity"/>
+        <activity android:name="es.securcom.securso.presentation.view.activity.MessageActivity"/>
+        <activity android:name="es.securcom.securso.presentation.view.activity.AlarmActivity"/>
+        <activity android:name="es.securcom.securso.presentation.view.activity.RouteActivity"
                   android:configChanges="mcc|mnc|locale|keyboardHidden|screenLayout|screenSize|orientation"
                   android:noHistory="true"
                   android:theme="@style/AppTheme.Translucent">
@@ -68,10 +68,10 @@
         </activity>
 
         <service
-                android:name=".model.services.JobLocationService"
+                android:name="es.securcom.securso.model.services.JobLocationService"
                 android:exported="true"
                 android:permission="android.permission.BIND_JOB_SERVICE"/>
-        <service android:name=".model.services.JobPendingService"
+        <service android:name="es.securcom.securso.model.services.JobPendingService"
                  android:exported="true"
                  android:permission="android.permission.BIND_JOB_SERVICE"/>
 
@@ -79,7 +79,7 @@
                 android:name="preloaded_fonts"
                 android:resource="@array/preloaded_fonts"/>
 
-        <receiver android:name=".model.persistent.hardware.BatteryLevelReceiver">
+        <receiver android:name="es.securcom.securso.model.persistent.hardware.BatteryLevelReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_BATTERY_LOW"/>
                 <action android:name="android.intent.action.ACTION_BATTERY_OKAY"/>

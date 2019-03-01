@@ -34,7 +34,7 @@
                     android:textColor="@android:color/white"/>
 
         </android.support.v7.widget.Toolbar>
-
+        <include layout="@layout/progress"/>
 
     </android.support.design.widget.AppBarLayout>
 
